@@ -25,6 +25,7 @@ const t_member_event_stages = require("./json/t_member_event_stages.json");
 const m_mugen_dungeons = require("./json/m_mugen_dungeons.json");
 const group = require("./json/group.json");
 const event_act_bonus = require("./json/event_act_bonus.json");
+const items = require("./json/items.json");
 
 const app = express();
 app.use(morgan("combined"));
@@ -36,7 +37,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const port = 3000;
 const min = 1000000;
 const max = 9999999;
-var temp_member_id = "3055746";
+var temp_member_id = "3055718";
 var temp_name = "wjatdis";
 var temp_uuid = "c40e40fc-4e4a-40d8-b114-b14e1212a71d";
 const temp_token =
@@ -44,7 +45,7 @@ const temp_token =
 var temp_gc_count = 0;
 const temp_state = 0;
 const temp_units =
-    "4009013,3007012,4007012,4003013,6013013,5002015,3043014,5082012,5081011,5083013";
+    "6004011,4008013,6003015,5014014,5020013,4010013,4006014,4012014,3031015,5083013";
 var temp_update_type = 1;
 
 function getTime() {
@@ -125,7 +126,7 @@ app.post("/asg/entryj/entry", (req, res) => {
                 },
             ],
             extra: {
-                ad_tracking_request_enable: 0,
+                ad_tracking_request_enable: 1,
                 ad_tracking_version_ios: "14.0",
             },
         },
@@ -143,7 +144,7 @@ app.post("/asg/tutoj/inputName", (req, res) => {
     var payload = JSON.parse(req.body["payload"]);
     var name = payload["name"];
 
-    var temp_name = name;
+    temp_name = name;
 
     var data = {
         status_cd: 0,
@@ -215,8 +216,7 @@ app.post("/asg/tutoj/gacha", (req, res) => {
                             t_member_id: temp_member_id,
                             name: temp_name,
                             state: "6",
-                            unit_id:
-                                "4009013,3007012,4007012,4003013,6013013,5002015,3043014,5082012,5081011,5083013",
+                            unit_id: temp_units,
                             end_flg: "0",
                             denied_at: null,
                             gacha_cnt: temp_gc_count,
@@ -500,7 +500,6 @@ app.post("/asg/masterj/update_list", (req, res) => {
     res.send(data);
 });
 
-//only 2,3,4,5 present missing 9, 10 ... 27
 app.post("/asg/masterj/update_diff", (req, res) => {
     res.status(200);
     res.set("x-token", temp_token);
@@ -954,7 +953,7 @@ app.get("/asg/homej/pre_load", (req, res) => {
                 arena_msg: "アリーナ非開催",
                 arena_result: 0,
                 worldboss_in_session: 1,
-                ad_tracking_request_enable: 0,
+                ad_tracking_request_enable: 1,
                 ad_tracking_version_ios: "14.0",
             },
         },
@@ -1237,8 +1236,8 @@ app.get(/\/asg\/memberj\/index\/[0-9]{7}/, (req, res) => {
                         denied_at: null,
                         info_date: getTomorrow(),
                         admin_flg: "0",
-                        created: getTomorrow(false),
-                        modified: getTomorrow(false),
+                        created: getTomorrow(),
+                        modified: getTomorrow(),
                     },
                 },
             ],
