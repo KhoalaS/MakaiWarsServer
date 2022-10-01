@@ -6,8 +6,8 @@ const https = require("https");
 const morgan = require("morgan");
 
 const options = {
-    key: fs.readFileSync("./certs/makai.key"),
-    cert: fs.readFileSync("./certs/makai.pem"),
+    key: fs.readFileSync("./certs/makai_app.key"),
+    cert: fs.readFileSync("./certs/makai_app.pem"),
 };
 
 const m_shop_items = require("./json/m_shop_items.json");
@@ -23,11 +23,11 @@ const m_events = require("./json/m_events.json");
 const m_event_dungeons = require("./json/m_event_dungeons.json");
 const t_member_event_stages = require("./json/t_member_event_stages.json");
 const m_mugen_dungeons = require("./json/m_mugen_dungeons.json");
+const group = require("./json/group.json");
+const event_act_bonus = require("./json/event_act_bonus.json");
 
 const app = express();
 app.use(morgan("combined"));
-
-//hosting both API and CDN on the same server for now
 app.use(express.static("asg-ssl.akamaized.net"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
@@ -36,7 +36,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const port = 3000;
 const min = 1000000;
 const max = 9999999;
-const temp_member_id = "3055736";
+var temp_member_id = "3055746";
 var temp_name = "wjatdis";
 var temp_uuid = "c40e40fc-4e4a-40d8-b114-b14e1212a71d";
 const temp_token =
@@ -51,6 +51,26 @@ function getTime() {
     var timestamp = Date.now();
     timestamp = timestamp.toString().substring(0, 10);
     return timestamp;
+}
+
+function getTomorrow(yes) {
+    var x = new Date();
+    if (yes == null) {
+        x.setDate(new Date().getDate() + 1);
+    }
+    var sec = x.getSeconds();
+    if (sec.toString().length < 2) {
+        sec += "0";
+    }
+    var ret =
+        x.toISOString().substring(0, 10) +
+        " " +
+        x.getHours() +
+        ":" +
+        x.getMinutes() +
+        ":" +
+        sec;
+    return ret;
 }
 
 app.post("/asg/api/signup", (req, res) => {
@@ -75,10 +95,16 @@ app.post("/asg/api/login", (req, res) => {
     res.end();
 });
 
+//member_id creation is here
 app.post("/asg/entryj/entry", (req, res) => {
+    /*
     const member_id = (
         Math.floor(Math.random() * (max - min)) + min
     ).toString();
+    */
+
+    var member_id = temp_member_id;
+
     res.status(200);
     res.set("x-token", temp_token);
 
@@ -262,7 +288,7 @@ app.get("/asg/tutoj/party", (req, res) => {
     res.send(data);
 });
 
-app.get("/asg/tutoj/finish", (req, res) => {
+app.post("/asg/tutoj/finish", (req, res) => {
     res.status(200);
     res.set("x-token", temp_token);
     res.set("x-uuid", temp_uuid);
@@ -486,10 +512,8 @@ app.post("/asg/masterj/update_diff", (req, res) => {
     var id = payload["id"];
     console.log(`update_diff_${id} requested`);
 
-    var usersFilePath = path.join(
-        __dirname,
-        `json/update/update_diff_${id}.json`
-    );
+    var usersFilePath = path.join(__dirname, `update_diff_${id}.json`);
+    console.log(usersFilePath);
     var readable = fs.createReadStream(usersFilePath);
     readable.pipe(res);
 });
@@ -731,6 +755,38 @@ app.get("/asg/shopj/index", (req, res) => {
     res.send(data);
 });
 
+app.get("/asg/itemj/index/", (req, res) => {
+    res.status(200);
+    res.set("x-token", temp_token);
+    res.set("x-uuid", temp_uuid);
+
+    var data = {
+        status_cd: 0,
+        error_cd: 0,
+        data: {
+            replace: [
+                {
+                    t_member_id: temp_member_id,
+                    t_member_items: [
+                        {
+                            item_id: "1101",
+                            item_type: "11",
+                            item_num: "10000",
+                        },
+                        {
+                            item_id: "1201",
+                            item_type: "12",
+                            item_num: "10000",
+                        },
+                    ],
+                },
+            ],
+        },
+        timestamp: getTime(),
+    };
+    res.send(data);
+});
+
 app.get("/asg/memberj/index", (req, res) => {
     res.status(200);
     res.set("x-token", temp_token);
@@ -919,7 +975,7 @@ app.get("/asg/questj/index", (req, res) => {
         data: {
             replace: [
                 {
-                    t_member_id: "3055718",
+                    t_member_id: temp_member_id,
                     m_events: m_events,
                     m_event_dungeons: m_event_dungeons,
                     t_member_event_stages: t_member_event_stages,
@@ -1082,6 +1138,54 @@ app.get("/asg/questj/index", (req, res) => {
     res.send(data);
 });
 
+app.get("/asg/questj/sp", (req, res) => {
+    res.status(200);
+    res.set("x-token", temp_token);
+    res.set("x-uuid", temp_uuid);
+
+    var data = {
+        status_cd: 0,
+        error_cd: 0,
+        data: {
+            replace: [
+                {
+                    t_member_id: temp_member_id,
+                    m_events: m_events,
+                    m_event_dungeons: m_event_dungeons,
+                    t_member_event_stages: t_member_event_stages,
+                    event_act_bonus: event_act_bonus,
+                    playable_badge: {
+                        enabled: 1,
+                        dungeon_id: [11, 12, 15, 16, 17, 18, 19, 22, 61, 71],
+                    },
+                    group: group,
+                    bonus_story: [
+                        {
+                            story_no: "2000615",
+                            dungeon_id: "20006",
+                            clear_stage_id: "2000629",
+                            btn_title: "ENDING",
+                            btn_align: 1,
+                            font: 40,
+                        },
+                        {
+                            story_no: "3000615",
+                            dungeon_id: "30006",
+                            clear_stage_id: "3000621",
+                            btn_title: "ENDING",
+                            btn_align: 1,
+                            font: 40,
+                        },
+                    ],
+                    m_mugen_dungeons: m_mugen_dungeons,
+                },
+            ],
+        },
+        timestamp: getTime(),
+    };
+    res.send(data);
+});
+
 //again lot of account data in json
 app.get(/\/asg\/memberj\/index\/[0-9]{7}/, (req, res) => {
     var localPath = req.path;
@@ -1104,7 +1208,7 @@ app.get(/\/asg\/memberj\/index\/[0-9]{7}/, (req, res) => {
                         lv: "1",
                         exp: "0",
                         exp_sum: "0",
-                        act_max_date: "2022-09-30 04:31:12",
+                        act_max_date: getTomorrow(),
                         act_max: "20",
                         act_overflow: "0",
                         act_push_suspend: "0",
@@ -1121,20 +1225,20 @@ app.get(/\/asg\/memberj\/index\/[0-9]{7}/, (req, res) => {
                         t_member_card_lv: "1",
                         deck_no: "1",
                         bp_max: "10",
-                        bp_max_date: "2022-09-30 04:31:12",
+                        bp_max_date: getTomorrow(),
                         last_login_date: "0000-00-00 00:00:00",
                         last_login_present_date: "0000-00-00",
                         continue_login_count: "0",
                         login_sheet: "1",
                         login_days: "0",
-                        info_conf_date: "2022-09-30 04:31:12",
+                        info_conf_date: getTomorrow(),
                         mission_beginner_clear_flg: "0",
                         identity: "",
                         denied_at: null,
-                        info_date: "2022-09-30 04:31:12",
+                        info_date: getTomorrow(),
                         admin_flg: "0",
-                        created: "2022-09-30 04:31:12",
-                        modified: "2022-09-30 04:31:12",
+                        created: getTomorrow(false),
+                        modified: getTomorrow(false),
                     },
                 },
             ],

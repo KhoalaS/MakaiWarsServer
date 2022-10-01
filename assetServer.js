@@ -7,3 +7,4 @@ app.use(express.static("asg-ssl.akamaized.net"));
 app.listen(port, () => {
     console.log(`AssetServer listening on port ${port}`);
 });
+

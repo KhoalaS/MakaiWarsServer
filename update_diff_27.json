@@ -1,0 +1,10 @@
+{
+    "status_cd": 0,
+    "error_cd": 0,
+    "data": {
+        "extra": {
+            "master": "{\"master\": [{\"id\":22,\"name\":\"ディスガイア6\",\"hide_flg\":0,\"children\":\"\",\"version_date\":\"2021-09-30 00:00:00\",\"del_flg\":0},{\"id\":23,\"name\":\"勇者\",\"hide_flg\":0,\"children\":\"\",\"version_date\":\"2022-02-18 00:00:00\",\"del_flg\":0}]}"
+        }
+    },
+    "timestamp": "1664497468"
+}

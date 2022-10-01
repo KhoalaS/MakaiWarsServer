@@ -7,127 +7,12 @@
 			"m_events": ,
 			"m_event_dungeons": ,
 			"t_member_event_stages": ,
-			"event_act_bonus": [{
-				"id": "5",
-				"type": 2,
-				"rate": 50,
-				"passport_flg": "0",
-				"passport2_flg": "0",
-				"date_from": "2022-02-28 15:00:00",
-				"date_to": "9999-01-01 00:00:00"
-			}, {
-				"id": "6",
-				"type": 1,
-				"rate": 50,
-				"passport_flg": "0",
-				"passport2_flg": "0",
-				"date_from": "2022-02-28 15:00:00",
-				"date_to": "9999-01-01 00:00:00"
-			}],
+			"event_act_bonus": ,
 			"playable_badge": {
 				"enabled": 1,
 				"dungeon_id": [11, 12, 15, 16, 17, 18, 19, 22, 61, 71]
 			},
-			"group": [
-                {
-				"id": "1",
-				"title": "属性強化の間",
-				"m_events_id": "15,16,17,18,19",
-				"group_flg": "0",
-				"tab": "2",
-				"sort": "26",
-				"banner": "ui\/quest\/textures\/banner\/eventgroup\/episode26",
-				"date_from": "2000-01-01 00:00:00",
-				"date_to": "9999-01-01 00:00:00",
-				"youbi": "1,2,3,4,5,6,7",
-				"num": "10",
-				"num_recovery": "10",
-				"progress_check": "0"
-			}, {
-				"id": "2",
-				"title": "転生の間",
-				"m_events_id": "31,32,33,34,35",
-				"group_flg": "1",
-				"tab": "2",
-				"sort": "36",
-				"banner": "ui\/quest\/textures\/banner\/eventgroup\/episode36",
-				"date_from": "2022-09-30 00:00:00",
-				"date_to": "2022-09-30 23:59:59",
-				"youbi": "1,2,3,4,5,6,7",
-				"num": "20",
-				"num_recovery": "10",
-				"progress_check": "0"
-			}, {
-				"id": "3",
-				"title": "魔装の間",
-				"m_events_id": "41,42,43,44,45",
-				"group_flg": "0",
-				"tab": "2",
-				"sort": "46",
-				"banner": "ui\/quest\/textures\/banner\/eventgroup\/episode46",
-				"date_from": "2000-01-01 00:00:00",
-				"date_to": "9999-01-01 00:00:00",
-				"youbi": "1,2,3,4,5,6,7",
-				"num": "20",
-				"num_recovery": "10",
-				"progress_check": "0"
-			}, {
-				"id": "4",
-				"title": "限界突破の間",
-				"m_events_id": "51,52,53,54,55",
-				"group_flg": "0",
-				"tab": "2",
-				"sort": "56",
-				"banner": "ui\/quest\/textures\/banner\/eventgroup\/episode56",
-				"date_from": "2000-01-01 00:00:00",
-				"date_to": "9999-01-01 00:00:00",
-				"youbi": "1,2,3,4,5,6,7",
-				"num": "10",
-				"num_recovery": "5",
-				"progress_check": "0"
-			}, {
-				"id": "5",
-				"title": "アサギ界編",
-				"m_events_id": "20001,20002,20003,20004,20005,20006",
-				"group_flg": "0",
-				"tab": "4",
-				"sort": "100",
-				"banner": "ui\/quest\/textures\/banner\/eventgroup\/episode20000",
-				"date_from": "2000-01-01 00:00:00",
-				"date_to": "9999-01-01 00:00:00",
-				"youbi": "0",
-				"num": "0",
-				"num_recovery": "0",
-				"progress_check": "1"
-			}, {
-				"id": "6",
-				"title": "魔音編",
-				"m_events_id": "30001,30002,30003,30004,30005,30006",
-				"group_flg": "0",
-				"tab": "4",
-				"sort": "101",
-				"banner": "ui\/quest\/textures\/banner\/eventgroup\/episode30000",
-				"date_from": "2000-01-01 00:00:00",
-				"date_to": "9999-01-01 00:00:00",
-				"youbi": "0",
-				"num": "0",
-				"num_recovery": "0",
-				"progress_check": "1"
-			}, {
-				"id": "7",
-				"title": "勇者の鏡編",
-				"m_events_id": "6066,6075,6076,6080,6082",
-				"group_flg": "0",
-				"tab": "4",
-				"sort": "102",
-				"banner": "ui\/quest\/textures\/banner\/eventgroup\/episode40000",
-				"date_from": "2000-01-01 00:00:00",
-				"date_to": "9999-01-01 00:00:00",
-				"youbi": "0",
-				"num": "0",
-				"num_recovery": "0",
-				"progress_check": "1"
-			}],
+			"group": ,
 			"bonus_story": [{
 				"story_no": "2000615",
 				"dungeon_id": "20006",
@@ -143,7 +28,7 @@
 				"btn_align": 1,
 				"font": 40
 			}],
-			"m_mugen_dungeons": 
+			"m_mugen_dungeons": ,
 		}]
 	},
 	"timestamp": "1664479879"
