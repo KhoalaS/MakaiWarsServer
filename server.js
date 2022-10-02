@@ -34,7 +34,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const port = 3000;
+const port = 443;
 const min = 1000000;
 const max = 9999999;
 var temp_member_id = "3055718";
@@ -706,6 +706,7 @@ app.get("/asg/accountj/check_linked", (req, res) => {
         },
         timestamp: getTime(),
     };
+    res.send(data)
 });
 
 app.get("/asg/shopj/items", (req, res) => {
@@ -1247,4 +1248,4 @@ app.get(/\/asg\/memberj\/index\/[0-9]{7}/, (req, res) => {
     res.send(data);
 });
 
-https.createServer(options, app).listen(443);
+https.createServer(options, app).listen(port);
