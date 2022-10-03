@@ -10,9 +10,13 @@ A private server for the mobile game Makai Wars using ExpressJS for the game API
 - [x] get into game
 - [ ] Database to store player data
 - [ ] Authentication Logic
-- [ ] in-game actions
-    - Coming soon
-    - ...
+- in-game actions
+    - [x] Gacha
+    - [ ] Enhancement
+    - [ ] Dungeons
+    - [x] Login Reward
+    - [ ] Account Transfer
+    - [x] Presents
 
 Getting the game to work with the server has priority right now. Therefore only using mock data.  
 
@@ -28,5 +32,3 @@ The response data also does not use any third
 party encryption.
 
 API prints and response data will be hosted elsewhere.
-
-

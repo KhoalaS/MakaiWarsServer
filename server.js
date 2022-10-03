@@ -5,6 +5,9 @@ const path = require("path");
 const https = require("https");
 const morgan = require("morgan");
 
+const sqlite = require('better-sqlite3');
+const db = new sqlite(path.resolve('main.db'), {fileMustExist: true});
+
 const options = {
     key: fs.readFileSync("./certs/makai_app.key"),
     cert: fs.readFileSync("./certs/makai_app.pem"),
@@ -25,7 +28,12 @@ const t_member_event_stages = require("./json/t_member_event_stages.json");
 const m_mugen_dungeons = require("./json/m_mugen_dungeons.json");
 const group = require("./json/group.json");
 const event_act_bonus = require("./json/event_act_bonus.json");
-const items = require("./json/items.json");
+const notice = require("./json/notice.json");
+
+//presents should be computed in real implementation
+const t_member_presents = require("./json/t_member_presents.json");
+const sp_mission = require("./json/sp_mission.json");
+const m_gachas = require("./json/m_gachas.json");
 
 const app = express();
 app.use(morgan("combined"));
@@ -46,31 +54,33 @@ var temp_gc_count = 0;
 const temp_state = 0;
 const temp_units =
     "6004011,4008013,6003015,5014014,5020013,4010013,4006014,4012014,3031015,5083013";
-var temp_update_type = 1;
+var temp_update_type = 0;
 
 function getTime() {
     var timestamp = Date.now();
     timestamp = timestamp.toString().substring(0, 10);
-    return timestamp;
+    return Number(timestamp);
 }
 
-function getTomorrow(yes) {
+function getTomorrow(flip) {
     var x = new Date();
-    if (yes == null) {
+    if (flip == null) {
         x.setDate(new Date().getDate() + 1);
     }
     var sec = x.getSeconds();
+    var min = x.getMinutes();
+    var hour = x.getHours();
     if (sec.toString().length < 2) {
-        sec += "0";
+        sec = "0" + sec;
+    }
+    if (min.toString().length < 2) {
+        min = "0" + min;
+    }
+    if (hour.toString().length < 2) {
+        hour = "0" + hour;
     }
     var ret =
-        x.toISOString().substring(0, 10) +
-        " " +
-        x.getHours() +
-        ":" +
-        x.getMinutes() +
-        ":" +
-        sec;
+        x.toISOString().substring(0, 10) + " " + hour + ":" + min + ":" + sec;
     return ret;
 }
 
@@ -587,6 +597,45 @@ app.get("/asg/settingj/data_fetch_setting", (req, res) => {
     res.send(data);
 });
 
+app.post("/asg/settingj/push_apply", (req, res) => {
+    res.status(200);
+    res.set("x-token", temp_token);
+    res.set("x-uuid", temp_uuid);
+
+    var data = {
+        status_cd: 0,
+        error_cd: 0,
+        data: {
+            extra: {
+                success: 1,
+            },
+        },
+        timestamp: getTime(),
+    };
+    res.send(data);
+});
+
+app.post("/asg/settingj/device_token", (req, res) => {
+    res.status(200);
+    res.set("x-token", temp_token);
+    res.set("x-uuid", temp_uuid);
+
+    var payload = JSON.parse(req.body["payload"]);
+    var device_token = payload["token"];
+
+    var data = {
+        status_cd: 0,
+        error_cd: 0,
+        data: {
+            extra: {
+                success: 1,
+            },
+        },
+        timestamp: getTime(),
+    };
+    res.send(data);
+});
+
 app.post("/asg/adj/setting_id", (req, res) => {
     res.status(200);
     res.set("x-token", temp_token);
@@ -706,7 +755,7 @@ app.get("/asg/accountj/check_linked", (req, res) => {
         },
         timestamp: getTime(),
     };
-    res.send(data)
+    res.send(data);
 });
 
 app.get("/asg/shopj/items", (req, res) => {
@@ -771,12 +820,12 @@ app.get("/asg/itemj/index/", (req, res) => {
                         {
                             item_id: "1101",
                             item_type: "11",
-                            item_num: "10000",
+                            item_num: "10000000",
                         },
                         {
                             item_id: "1201",
                             item_type: "12",
-                            item_num: "10000",
+                            item_num: "10000000",
                         },
                     ],
                 },
@@ -945,6 +994,7 @@ app.get("/asg/homej/pre_load", (req, res) => {
                         rare: ["0", "0", "0", "0", "0", "0", "0", "0", "0"],
                         legend: ["0", "0", "0", "0", "0", "0", "0", "0", "0"],
                     },
+
                     world_boss_deck: [],
                 },
             ],
@@ -960,6 +1010,18 @@ app.get("/asg/homej/pre_load", (req, res) => {
         },
         timestamp: getTime(),
     };
+
+    res.send(data);
+});
+
+//notice probably contains a lot of personal data and the data itself
+//will likely change dynamically in a real scenario
+app.get("/asg/homej/notice", (req, res) => {
+    res.status(200);
+    res.set("x-token", temp_token);
+    res.set("x-uuid", temp_uuid);
+
+    var data = notice;
 
     res.send(data);
 });
@@ -1247,5 +1309,470 @@ app.get(/\/asg\/memberj\/index\/[0-9]{7}/, (req, res) => {
     };
     res.send(data);
 });
+
+app.get("/asg/presentj/index/0", (req, res) => {
+    res.status(200);
+    res.set("x-token", temp_token);
+    res.set("x-uuid", temp_uuid);
+
+    var data = {
+        status_cd: 0,
+        error_cd: 0,
+        data: {
+            replace: [
+                {
+                    t_member_id: temp_member_id,
+                    t_member_presents: t_member_presents,
+                },
+            ],
+        },
+        timestamp: getTime(),
+    };
+    res.send(data);
+});
+
+app.post("/asg/presentj/receive", (req, res) => {
+    res.status(200);
+    res.set("x-token", temp_token);
+    res.set("x-uuid", temp_uuid);
+    var payload = JSON.parse(req.body["payload"]);
+    var id_arr = payload["id"];
+    var id = id_arr[0];
+
+    var data = {
+        status_cd: 0,
+        error_cd: 0,
+        data: {
+            replace: [
+                {
+                    t_member_id: temp_member_id,
+                    t_members: {
+                        id: temp_member_id,
+                        os_type: "2",
+                        name: temp_name,
+                        lv: "1",
+                        exp: "0",
+                        exp_sum: "0",
+                        act_max_date: getTomorrow(),
+                        act_max: "20",
+                        act_overflow: "0",
+                        act_push_suspend: "0",
+                        friend_now: "0",
+                        friend_max: "100",
+                        friend_num: "0",
+                        friend_num_followed: "0",
+                        card_num: "11",
+                        eq_max: "250",
+                        eq_num: "15",
+                        m_quest_stage_id: "10110111",
+                        t_member_card_id: "6568404",
+                        m_card_id: "5083013",
+                        t_member_card_lv: "1",
+                        deck_no: "1",
+                        bp_max: "10",
+                        bp_max_date: getTomorrow(),
+                        last_login_date: "0000-00-00 00:00:00",
+                        last_login_present_date: "0000-00-00",
+                        continue_login_count: "0",
+                        login_sheet: "1",
+                        login_days: "0",
+                        info_conf_date: getTomorrow(),
+                        mission_beginner_clear_flg: "0",
+                        identity: "",
+                        denied_at: null,
+                        info_date: getTomorrow(),
+                        admin_flg: "0",
+                        created: getTomorrow(),
+                        modified: getTomorrow(),
+                    },
+                    t_member_items: [
+                        { item_id: 1401, item_type: 14, item_num: 20000 },
+                    ],
+                    t_member_eqs: [],
+                    t_member_cards: [],
+                },
+            ],
+            delete: [{ t_member_id: temp_member_id, t_member_presents: [] }],
+            extra: { is_box_item: 0 },
+        },
+        timestamp: getTime(),
+    };
+    res.send(data);
+});
+
+app.get("/asg/missionj/sp_sheet", (req, res) => {
+    res.status(200);
+    res.set("x-token", temp_token);
+    res.set("x-uuid", temp_uuid);
+
+    var data = {
+        status_cd: 0,
+        error_cd: 0,
+        data: {
+            replace: [
+                {
+                    t_member_id: temp_member_id,
+                    sp_mission: sp_mission,
+                },
+            ],
+        },
+        timestamp: getTime(),
+    };
+    res.send(data);
+});
+
+app.get("/asg/exploration/index", (req, res) => {
+    res.status(200);
+    res.set("x-token", temp_token);
+    res.set("x-uuid", temp_uuid);
+
+    var data = {
+        data: {
+            replace: [
+                {
+                    exploration: {
+                        base_date_time: "2022-10-03 07:28:46",
+                        deck_no: 1,
+                        floor_no: 0,
+                        floor_record: 0,
+                        hint: "PTを編成してアイテム界に出発するッス!",
+                        send_date_time: "2022-10-03 07:28:45",
+                        starting: 0,
+                    },
+                    exploration_info_url: "/info/content_direct/900006",
+                    t_member_id: temp_member_id,
+                },
+            ],
+        },
+        error_cd: 0,
+        status_cd: 0,
+        timestamp: getTime(),
+    };
+    res.send(data);
+});
+
+app.get("/asg/gachaj/index", (req, res) => {
+    res.status(200);
+    res.set("x-token", temp_token);
+    res.set("x-uuid", temp_uuid);
+
+    var data = {
+        status_cd: 0,
+        error_cd: 0,
+        data: {
+            extra: {
+                m_gachas: m_gachas,
+                m_gacha_bonus: [],
+            },
+        },
+        timestamp: getTime(),
+    };
+    res.send(data);
+});
+
+app.get("/asg/exploration/index", (req, res) => {
+    res.status(200);
+    res.set("x-token", temp_token);
+    res.set("x-uuid", temp_uuid);
+
+    var data = {
+        data: {
+            replace: [
+                {
+                    exploration: {
+                        base_date_time: "2022-10-03 07:28:46",
+                        deck_no: 1,
+                        floor_no: 0,
+                        floor_record: 0,
+                        hint: "PTを編成してアイテム界に出発するッス!",
+                        send_date_time: "2022-10-03 07:28:45",
+                        starting: 0,
+                    },
+                    exploration_info_url: "/info/content_direct/900006",
+                    t_member_id: temp_member_id,
+                },
+            ],
+        },
+        error_cd: 0,
+        status_cd: 0,
+        timestamp: getTime(),
+    };
+    res.send(data);
+});
+
+app.post("/asg/gachaj/lottery", (req, res) => {
+    res.status(200);
+    res.set("x-token", temp_token);
+    res.set("x-uuid", temp_uuid);
+    var payload = JSON.parse(req.body["payload"]);
+    var id = payload["id"];
+    var num = payload["num"];
+    var lottery = getLottery()
+    var cards = lottery[0]
+    var results = lottery[1]
+
+    var data = {
+        status_cd: 0,
+        error_cd: 0,
+        data: {
+            replace: [
+                {
+                    t_member_id: temp_member_id,
+                    t_members: {
+                        id: temp_member_id,
+                        os_type: "2",
+                        name: temp_name,
+                        lv: "1",
+                        exp: "0",
+                        exp_sum: "0",
+                        act_max_date: getTomorrow(),
+                        act_max: "20",
+                        act_overflow: "0",
+                        act_push_suspend: "0",
+                        friend_now: "0",
+                        friend_max: "100",
+                        friend_num: "0",
+                        friend_num_followed: "0",
+                        card_num: "0",
+                        eq_max: "250",
+                        eq_num: "15",
+                        m_quest_stage_id: "10110111",
+                        t_member_card_id: "6568404",
+                        m_card_id: "5083013",
+                        t_member_card_lv: "1",
+                        deck_no: "1",
+                        bp_max: "10",
+                        bp_max_date: getTomorrow(),
+                        last_login_date: "0000-00-00 00:00:00",
+                        last_login_present_date: "0000-00-00",
+                        continue_login_count: "0",
+                        login_sheet: "1",
+                        login_days: "0",
+                        info_conf_date: getTomorrow(),
+                        mission_beginner_clear_flg: "0",
+                        identity: "",
+                        denied_at: null,
+                        info_date: getTomorrow(),
+                        admin_flg: "0",
+                        created: getTomorrow(),
+                        modified: getTomorrow(),
+                    },
+                    t_member_items: [],
+                    t_member_cards: cards,
+                    t_member_eqs: [],
+                },
+            ],
+            extra: {
+                gacha_results: results,
+                m_gachas: m_gachas,
+            },
+            delete: [
+                {
+                    t_member_id: temp_member_id,
+                    m_banners: [],
+                },
+            ],
+        },
+        timestamp: getTime(),
+    };
+    res.send(data);
+});
+
+app.get("/asg/gachaj/result_confirmed", (req, res) => {
+    res.status(200);
+    res.set("x-token", temp_token);
+    res.set("x-uuid", temp_uuid);
+
+    var data = {
+        status_cd: 0,
+        error_cd: 0,
+        data: [],
+        timestamp: getTime(),
+    };
+
+    res.send(data);
+});
+
+app.post("/asg/shopj/item_list", (req,res) => {
+    res.status(200);
+    res.set("x-token", temp_token);
+    res.set("x-uuid", temp_uuid);
+    res.set("Content-Type", "application/json");
+
+    var payload = JSON.parse(req.body["payload"])
+    var id = payload["id"]
+    
+    var usersFilePath = path.join(__dirname, `/shop/item_list_${id}.json`);
+    console.log(usersFilePath);
+    var readable = fs.createReadStream(usersFilePath);
+    readable.pipe(res);
+})
+
+
+
+app.post("/asg/shopj/exchange", (req,res) => {
+    res.status(200);
+    res.set("x-token", temp_token);
+    res.set("x-uuid", temp_uuid);
+    var payload = JSON.parse(req.body["payload"])
+    var id = payload["id"]
+    var num = payload["num"]
+    var temp_balance = 20000
+
+    var item = getItem(id)
+    var member_items = computeExchangeDiff(item["m_item_id_shop"], item["m_item_num_shop"])
+    var cost = item["m_item_num_money"]*num
+    
+    var spend = {
+        "item_id": item["m_item_id_money"],
+        "item_num": temp_balance - cost,
+        "item_type": getType(item["m_item_id_money"])
+    }
+    member_items.push(spend)
+    
+    var data = {
+        "status_cd": 0,
+        "error_cd": 0,
+        "data": {
+            "replace": [{
+                "t_member_id": temp_member_id,
+                "t_members": {
+                    id: temp_member_id,
+                        os_type: "2",
+                        name: temp_name,
+                        lv: "1",
+                        exp: "0",
+                        exp_sum: "0",
+                        act_max_date: getTomorrow(),
+                        act_max: "20",
+                        act_overflow: "0",
+                        act_push_suspend: "0",
+                        friend_now: "0",
+                        friend_max: "100",
+                        friend_num: "0",
+                        friend_num_followed: "0",
+                        card_num: "11",
+                        eq_max: "250",
+                        eq_num: "15",
+                        m_quest_stage_id: "10110111",
+                        t_member_card_id: "6568404",
+                        m_card_id: "5083013",
+                        t_member_card_lv: "1",
+                        deck_no: "1",
+                        bp_max: "10",
+                        bp_max_date: getTomorrow(),
+                        last_login_date: "0000-00-00 00:00:00",
+                        last_login_present_date: "0000-00-00",
+                        continue_login_count: "0",
+                        login_sheet: "1",
+                        login_days: "0",
+                        info_conf_date: getTomorrow(),
+                        mission_beginner_clear_flg: "0",
+                        identity: "",
+                        denied_at: null,
+                        info_date: getTomorrow(),
+                        admin_flg: "0",
+                        created: getTomorrow(),
+                        modified: getTomorrow(),
+                },
+                "t_member_items": member_items,
+                "m_shop_items": [item]
+            }],
+            "extra": {
+                "present_item": []
+            }
+        },
+        "timestamp": getTime()
+    }
+
+    res.send(data)
+})
+
+function getLottery() {
+    var cards = [];
+    var results = [];
+    let sql =
+        "SELECT id,rare,attribute,sell FROM cards WHERE rare=5 ORDER BY RANDOM () LIMIT 10";
+    var stmt = db.prepare(sql)
+    var counter = 0;
+
+    var data = stmt.all()
+    
+    data.forEach((row) => {
+        counter++;
+        var card = {
+            lv: 1,
+            exp: 0,
+            exp_evo: 0,
+            created: getTomorrow(false),
+            modified: getTomorrow(false),
+            limit_break_num: 0,
+            lv_limit_extend: 0,
+            m_card_id: row.id,
+            rare: row.rare,
+            attribute: row.attribute,
+            lv_max: 20 * row.rare,
+            id: counter,
+            acommands: [1, 1, 1],
+            pcommands: [1, 1, 1, 1],
+            price: row.sell,
+            soul_eq_flg: 0,
+        };
+        var result = {
+            m_card_id: row.id,
+            is_new: 1,
+            is_tenjo: 0,
+            limit_break_num: 0,
+            replace: [],
+        };
+        cards.push(card);
+        results.push(result);
+    });
+    return [cards, results]
+}
+
+function getItem(id){
+    var sql = "SELECT * FROM shop_items WHERE id= ?;"
+    var item = db.prepare(sql).get(id)
+    item["id"] = item["id"].toString()
+    if(item["m_item_id_shop"].includes(",")){
+        var arr = item["m_item_id_shop"].split(",")
+        item["m_item_id_shop"] = arr
+    }else{
+        var temp = item["m_item_id_shop"]
+        item["m_item_id_shop"] = [temp]
+    }
+
+    if(item["m_item_num_shop"].includes(",")){
+        var arr = item["m_item_num_shop"].split(",")
+        item["m_item_num_shop"] = arr
+    }else{
+        var temp = item["m_item_num_shop"]
+        item["m_item_num_shop"] = [temp]
+    }
+    return item
+}
+
+function computeExchangeDiff(item_ids, item_nums){
+    var data = []
+    for(var i=0; i<item_ids.length; i++){
+        var sql = "SELECT item_type FROM items WHERE id=?;"
+        var row = db.prepare(sql).get(item_ids[i])
+        var member_item = {
+            "item_id": item_ids[i],
+            "item_num": Number(item_nums[i]),
+            "item_type": (row.item_type).toString()
+        }
+        data.push(member_item)
+    }
+  return data
+}
+
+function getType(id){
+    var sql = "SELECT item_type FROM ITEMS WHERE id=?;"
+    var row = db.prepare(sql).get(id)
+    return (row.item_type).toString()
+}
+
 
 https.createServer(options, app).listen(port);

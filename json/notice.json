@@ -1,0 +1,447 @@
+{
+	"status_cd": 0,
+	"error_cd": 0,
+	"data": {
+		"replace": [{
+			"t_member_id": "3055718",
+			"t_member_item_activations": [],
+			"login_bonus": [{
+				"no": 1,
+				"total_count": 1,
+				"get_type": 1,
+				"current_data": {
+					"current_day": 1,
+					"title_pic_id": 1,
+					"band_pic_id": 1,
+					"current_seat": [{
+						"id": "11001",
+						"m_login_bonus_id": "11",
+						"day": 1,
+						"item_type": "14",
+						"item_id": "1401",
+						"item_num": "200"
+					}, {
+						"id": "11002",
+						"m_login_bonus_id": "11",
+						"day": 2,
+						"item_type": "11",
+						"item_id": "1101",
+						"item_num": "100000"
+					}, {
+						"id": "11003",
+						"m_login_bonus_id": "11",
+						"day": 3,
+						"item_type": "14",
+						"item_id": "1401",
+						"item_num": "200"
+					}, {
+						"id": "11004",
+						"m_login_bonus_id": "11",
+						"day": 4,
+						"item_type": "63",
+						"item_id": "6301",
+						"item_num": "20"
+					}, {
+						"id": "11005",
+						"m_login_bonus_id": "11",
+						"day": 5,
+						"item_type": "14",
+						"item_id": "1401",
+						"item_num": "200"
+					}, {
+						"id": "11006",
+						"m_login_bonus_id": "11",
+						"day": 6,
+						"item_type": "12",
+						"item_id": "1201",
+						"item_num": "100000"
+					}, {
+						"id": "11007",
+						"m_login_bonus_id": "11",
+						"day": 7,
+						"item_type": "24",
+						"item_id": "2411",
+						"item_num": "100"
+					}],
+					"last_item": {
+						"item_type": "24",
+						"item_id": "2411",
+						"item_num": "100"
+					},
+					"message": "<color=#ff0000ff><size=28>1<\/size>日目<\/color>ログインボーナス\nあと6日ログインすると\n<color=#00ABFFFF>オーブの欠片<\/color>が貰える"
+				},
+				"next_data": {
+					"current_day": 2,
+					"title_pic_id": 1,
+					"band_pic_id": 1,
+					"current_seat": [{
+						"id": "11001",
+						"m_login_bonus_id": "11",
+						"day": 1,
+						"item_type": "14",
+						"item_id": "1401",
+						"item_num": "200"
+					}, {
+						"id": "11002",
+						"m_login_bonus_id": "11",
+						"day": 2,
+						"item_type": "11",
+						"item_id": "1101",
+						"item_num": "100000"
+					}, {
+						"id": "11003",
+						"m_login_bonus_id": "11",
+						"day": 3,
+						"item_type": "14",
+						"item_id": "1401",
+						"item_num": "200"
+					}, {
+						"id": "11004",
+						"m_login_bonus_id": "11",
+						"day": 4,
+						"item_type": "63",
+						"item_id": "6301",
+						"item_num": "20"
+					}, {
+						"id": "11005",
+						"m_login_bonus_id": "11",
+						"day": 5,
+						"item_type": "14",
+						"item_id": "1401",
+						"item_num": "200"
+					}, {
+						"id": "11006",
+						"m_login_bonus_id": "11",
+						"day": 6,
+						"item_type": "12",
+						"item_id": "1201",
+						"item_num": "100000"
+					}, {
+						"id": "11007",
+						"m_login_bonus_id": "11",
+						"day": 7,
+						"item_type": "24",
+						"item_id": "2411",
+						"item_num": "100"
+					}],
+					"last_item": {
+						"item_type": "24",
+						"item_id": "2411",
+						"item_num": "100"
+					},
+					"message": "<color=#ff0000ff><size=28>1<\/size>日目<\/color>ログインボーナス\nあと6日ログインすると\n<color=#00ABFFFF>オーブの欠片<\/color>が貰える"
+				},
+				"is_new": 1
+			}, {
+				"no": 2,
+				"total_count": 1,
+				"get_type": 2,
+				"current_data": {
+					"current_day": 1,
+					"title_pic_id": 13,
+					"band_pic_id": 13,
+					"current_seat": [{
+						"id": "6001",
+						"m_login_bonus_id": "6",
+						"day": "1",
+						"item_type": "14",
+						"item_id": "1401",
+						"item_num": "3000"
+					}, {
+						"id": "6002",
+						"m_login_bonus_id": "6",
+						"day": "1",
+						"item_type": "70",
+						"item_id": "7002",
+						"item_num": "1"
+					}, {
+						"id": "6003",
+						"m_login_bonus_id": "6",
+						"day": "1",
+						"item_type": "80",
+						"item_id": "8013",
+						"item_num": "10"
+					}, {
+						"id": "6004",
+						"m_login_bonus_id": "6",
+						"day": "1",
+						"item_type": "80",
+						"item_id": "8023",
+						"item_num": "10"
+					}, {
+						"id": "6005",
+						"m_login_bonus_id": "6",
+						"day": "1",
+						"item_type": "80",
+						"item_id": "8033",
+						"item_num": "10"
+					}, {
+						"id": "6006",
+						"m_login_bonus_id": "6",
+						"day": "1",
+						"item_type": "80",
+						"item_id": "8043",
+						"item_num": "10"
+					}, {
+						"id": "6007",
+						"m_login_bonus_id": "6",
+						"day": "1",
+						"item_type": "80",
+						"item_id": "8053",
+						"item_num": "10"
+					}],
+					"last_item": [],
+					"message": "新神ボーナス\n<color=#00ABFFFF>7種類<\/color>のアイテムをプレゼント"
+				},
+				"is_new": 1
+			}, {
+				"no": 3,
+				"total_count": 0,
+				"get_type": 3,
+				"current_data": {
+					"current_day": 16,
+					"title_pic_id": 6,
+					"band_pic_id": 6,
+					"current_seat": [{
+						"id": "999995",
+						"m_login_bonus_id": "999995",
+						"day": 1,
+						"item_type": "24",
+						"item_id": "2411",
+						"item_num": "100",
+						"del_flg": "0"
+					}, {
+						"id": "999996",
+						"m_login_bonus_id": "999996",
+						"day": 2,
+						"item_type": "63",
+						"item_id": "6301",
+						"item_num": "50",
+						"del_flg": "0"
+					}, {
+						"id": "999997",
+						"m_login_bonus_id": "999997",
+						"day": 3,
+						"item_type": "41",
+						"item_id": "4102",
+						"item_num": "2",
+						"del_flg": "0"
+					}, {
+						"id": "999998",
+						"m_login_bonus_id": "999998",
+						"day": 4,
+						"item_type": "63",
+						"item_id": "6301",
+						"item_num": "50",
+						"del_flg": "0"
+					}, {
+						"id": "999999",
+						"m_login_bonus_id": "999999",
+						"day": 5,
+						"item_type": "25",
+						"item_id": "2501",
+						"item_num": "1",
+						"del_flg": "0"
+					}],
+					"last_item": [],
+					"message": "月末はログインするだけで\n毎日豪華アイテムが貰える！"
+				},
+				"is_new": 1
+			}],
+			"rookie_bonus": {
+				"btn_message": "残り4日",
+				"login_bonus": {
+					"no": 1,
+					"total_count": 0,
+					"get_type": 2,
+					"current_data": {
+						"current_day": 1,
+						"title_pic_id": 13,
+						"band_pic_id": 13,
+						"current_seat": [{
+							"id": "7001",
+							"m_login_bonus_id": "7",
+							"day": "2",
+							"item_type": "14",
+							"item_id": "1401",
+							"item_num": "1000"
+						}, {
+							"id": "7002",
+							"m_login_bonus_id": "7",
+							"day": "2",
+							"item_type": "11",
+							"item_id": "1101",
+							"item_num": "1000000"
+						}, {
+							"id": "7003",
+							"m_login_bonus_id": "7",
+							"day": "2",
+							"item_type": "12",
+							"item_id": "1201",
+							"item_num": "1000000"
+						}, {
+							"id": "7004",
+							"m_login_bonus_id": "7",
+							"day": "2",
+							"item_type": "81",
+							"item_id": "8113",
+							"item_num": "5"
+						}],
+						"last_item": [],
+						"message": "明日ログインでルビー1000個と\nアイテムをプレゼント"
+					},
+					"is_new": 0
+				}
+			},
+			"m_banners": [{
+				"id": "100114",
+				"pic_id": "100348",
+				"priority": "10",
+				"date_from": "1001-01-01 00:00:00",
+				"date_to": "9999-01-01 00:00:00",
+				"youbi": "0",
+				"type": "5",
+				"param1": "114",
+				"param2": "",
+				"limit_txt": "",
+				"limit_cnt": -1,
+				"list_category": "1"
+			}, {
+				"id": "100350",
+				"pic_id": "100350",
+				"priority": "30",
+				"date_from": "1000-01-11 00:00:00",
+				"date_to": "9999-01-01 00:00:00",
+				"youbi": "0",
+				"type": "5",
+				"param1": "350",
+				"param2": "",
+				"limit_txt": "",
+				"limit_cnt": -1,
+				"list_category": "1"
+			}, {
+				"id": "100351",
+				"pic_id": "100351",
+				"priority": "31",
+				"date_from": "1000-01-11 00:00:00",
+				"date_to": "9999-01-01 00:00:00",
+				"youbi": "0",
+				"type": "5",
+				"param1": "351",
+				"param2": "",
+				"limit_txt": "",
+				"limit_cnt": -1,
+				"list_category": "1"
+			}, {
+				"id": "100352",
+				"pic_id": "100352",
+				"priority": "32",
+				"date_from": "1000-01-11 00:00:00",
+				"date_to": "9999-01-01 00:00:00",
+				"youbi": "0",
+				"type": "5",
+				"param1": "352",
+				"param2": "",
+				"limit_txt": "",
+				"limit_cnt": -1,
+				"list_category": "1"
+			}, {
+				"id": "100353",
+				"pic_id": "100353",
+				"priority": "33",
+				"date_from": "1000-01-11 00:00:00",
+				"date_to": "9999-01-01 00:00:00",
+				"youbi": "0",
+				"type": "5",
+				"param1": "353",
+				"param2": "",
+				"limit_txt": "",
+				"limit_cnt": -1,
+				"list_category": "1"
+			}, {
+				"id": "100354",
+				"pic_id": "100354",
+				"priority": "34",
+				"date_from": "1000-01-11 00:00:00",
+				"date_to": "9999-01-01 00:00:00",
+				"youbi": "0",
+				"type": "5",
+				"param1": "354",
+				"param2": "",
+				"limit_txt": "",
+				"limit_cnt": -1,
+				"list_category": "1"
+			}, {
+				"id": "100355",
+				"pic_id": "100355",
+				"priority": "35",
+				"date_from": "1000-01-11 00:00:00",
+				"date_to": "9999-01-01 00:00:00",
+				"youbi": "0",
+				"type": "5",
+				"param1": "355",
+				"param2": "",
+				"limit_txt": "",
+				"limit_cnt": -1,
+				"list_category": "1"
+			}, {
+				"id": "100356",
+				"pic_id": "100356",
+				"priority": "36",
+				"date_from": "1000-01-11 00:00:00",
+				"date_to": "9999-01-01 00:00:00",
+				"youbi": "0",
+				"type": "5",
+				"param1": "356",
+				"param2": "",
+				"limit_txt": "",
+				"limit_cnt": -1,
+				"list_category": "1"
+			}, {
+				"id": "100357",
+				"pic_id": "100357",
+				"priority": "37",
+				"date_from": "1000-01-11 00:00:00",
+				"date_to": "9999-01-01 00:00:00",
+				"youbi": "0",
+				"type": "5",
+				"param1": "357",
+				"param2": "",
+				"limit_txt": "",
+				"limit_cnt": -1,
+				"list_category": "1"
+			}],
+			"t_member_notice": {
+				"info_cnt": 0,
+				"present_cnt": "24",
+				"mission_cnt": 2,
+				"mission_open": 0,
+				"exploration_base": "",
+				"free_gacha": 1,
+				"boss_atk_num": 2,
+				"follow_like": 0,
+				"sp_mission_cnt": 0,
+				"sp_mission_open": 1,
+				"decisive_badge": 0,
+				"decisive_open": 0,
+				"decisive_yell": 0,
+				"charge_open": 0,
+				"charge_cnt": 0
+			}
+		}],
+		"extra": {
+			"m_world_boss_id": 99999999990,
+			"home_info": {
+				"title": "メンテナンスのお知らせ",
+				"message": "20日(金)15:00〜16:00まで予定しております",
+				"date_from": "2022-05-19 19:30:00",
+				"date_to": "2022-05-20 15:00:00"
+			},
+			"arena_open": 1,
+			"arena_msg": "アリーナ非開催",
+			"arena_result": 0,
+			"worldboss_in_session": 1
+		}
+	},
+	"timestamp": "1664480879"
+}
